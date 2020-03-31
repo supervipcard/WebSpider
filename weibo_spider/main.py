@@ -17,7 +17,7 @@ class WeiBoSpider:
         self.context = external_runtime.compile(source)
 
         self.session = requests.Session()
-        self.headers = {
+        self.session.headers = {
             'Accept': '*/*',
             'Accept-Encoding': 'gzip, deflate, br',
             'Accept-Language': 'zh-CN,zh;q=0.9',
