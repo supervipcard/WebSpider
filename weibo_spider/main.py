@@ -17,6 +17,13 @@ class WeiBoSpider:
         self.context = external_runtime.compile(source)
 
         self.session = requests.Session()
+        self.headers = {
+            'Accept': '*/*',
+            'Accept-Encoding': 'gzip, deflate, br',
+            'Accept-Language': 'zh-CN,zh;q=0.9',
+            'Connection': 'keep-alive',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36',
+        }
         self.caller = Caller()
 
     def login(self):
