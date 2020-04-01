@@ -31,6 +31,7 @@ def login(username, password):
         'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36',
     }
 
+    # 获取验证码图片
     url = 'https://user.qunar.com/passport/login.jsp'
     response = session.get(url=url)
     html = etree.HTML(response.text)
@@ -40,6 +41,7 @@ def login(username, password):
     with open(r'captcha.jpg', 'wb') as f:
         f.write(response.content)
 
+    # 获取session_id
     url = 'https://rmcsdf.qunar.com/js/df.js?org_id=ucenter.login&js_type=0'
     headers = {
         'Referer': 'https://user.qunar.com/passport/login.jsp'
@@ -47,12 +49,14 @@ def login(username, password):
     response = session.get(url=url, headers=headers)
     session_id = re.search(r'sessionId=(.*?)&', response.text).group(1)
 
+    # set-cookie
     url = 'https://user.qunar.com/passport/addICK.jsp?ssl'
     headers = {
         'Referer': 'https://user.qunar.com/passport/login.jsp'
     }
     session.get(url=url, headers=headers)
 
+    # challenge + answer 对 session_id 做一次检验
     url = 'https://rmcsdf.qunar.com/api/device/challenge.json'
     headers = {
         'Referer': 'https://user.qunar.com/passport/login.jsp',
@@ -84,6 +88,8 @@ def login(username, password):
     session.get(url=url, headers=headers, params=params)
 
     vcode = input('请输入验证码：')
+
+    # 登录接口
     url = 'https://user.qunar.com/passport/loginx.jsp'
     headers = {
         'X-Requested-With': 'XMLHttpRequest',
@@ -102,4 +108,4 @@ def login(username, password):
 
 
 if __name__ == '__main__':
-    login('***', '***')
+    login('123456', '123456')
